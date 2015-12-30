@@ -1,33 +1,70 @@
 
 /**
  * Write a description of class MailItem here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Representa a un email
+ * VACACIONES, VACACIONES.
  */
 public class MailItem
 {
-    // instance variables - replace the example below with your own
-    private int x;
+    // At. para guardar el remitente del email.
+    private String from;
+    //At para guardar la dirección del destinatario.
+    private String to;
+    //At para guardar el mensaje.
+    private String message;
 
     /**
      * Constructor for objects of class MailItem
      */
-    public MailItem()
+    public MailItem(String from, String to, String message)
     {
-        // initialise instance variables
-        x = 0;
+        this.from  = from;
+        this.to = to;
+        this.message = message;
     }
-
+    
     /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * Serie de mt. getters para retornar el valor de los atributos.
      */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+   
+    public String getFrom(){
+        return from;
     }
+    public String getTo(){
+        return to;
+    }
+    public String getMessage(){
+        return message;
+    }
+    
+    /**
+     * Muestra por pantalla los atributos.
+     */
+    public void print(){
+        System.out.println("De: "      +from);
+        System.out.println("Para: "    +to);
+        System.out.println("Mensaje: " +message);
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
