@@ -1,33 +1,55 @@
 
 /**
- * Write a description of class MaliClient here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ *VACACIONES, VACACIONES, VACACIONES.
+ *31 / 12 / 2015
  */
 public class MaliClient
 {
-    // instance variables - replace the example below with your own
-    private int x;
+    // At para guardar el servidor que tiene este cliente.
+    private MailServer server;
+    //At para guardar la dirección del correo que usa este cliente.
+    private String user;
 
     /**
      * Constructor for objects of class MaliClient
      */
-    public MaliClient()
+    public MaliClient(MailServer server, String user)
     {
-        // initialise instance variables
-        x = 0;
+        server = new MailServer();
+        this.server = server;
+        this.user = user;
     }
-
+    
     /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * Mt para recuperar del servidor el siguiente mensaje.
      */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    public MailServer getNextMailItem(){
+        return getNextMailItem();
+        
     }
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
