@@ -28,9 +28,27 @@ public class MaliClient
         
     }
     
+    /**
+     * Mt para imprimir por pantalla los correos recibidos en el servidor.
+     */
+    public void printNextMailItem(){
+        if(getNextMailItem() != null){
+            System.out.println(getNextMailItem()); 
+        }
+        else{System.out.println("No tiene mensajes nuevos.");}
+    }
+        
+    }
     
     
-}
+    
+    
+    
+    
+    
+    
+    
+ 
 
 
 
