@@ -23,8 +23,8 @@ public class MaliClient
     /**
      * Mt para recuperar del servidor el siguiente mensaje.
      */
-    public MailServer getNextMailItem(){
-        return getNextMailItem();
+    public MailItem getNextMailItem(){
+        return server.getNextMailItem(user);
         
     }
     
@@ -36,6 +36,15 @@ public class MaliClient
             System.out.println(getNextMailItem()); 
         }
         else{System.out.println("No tiene mensajes nuevos.");}
+    }
+    
+    /**
+     * Mt para crear mensajes indicando el destinatario  y el cuerpo
+     *  del mensaje, y enviarles a un servidor.
+     */
+    public void senMailItem(String para, String mensaje){
+        MailItem email = new MailItem(user, para, mensaje);
+        server.post(email);
     }
         
     }
