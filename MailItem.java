@@ -36,7 +36,7 @@ public class MailItem
     public String getTo(){
         return to;
     } 
-    public String subject(){
+    public String getSubject(){
         return subject;
     }
     public String getMessage(){

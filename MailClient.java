@@ -30,8 +30,7 @@ public class MailClient
     {
         return server.getNextMailItem(user);
     }
-    
-    
+
     /**
      * Recupera del servidor el siguiente email destinado al
      * usuario que esta usando el cliente e imprime sus datos
@@ -62,22 +61,29 @@ public class MailClient
         MailItem email = new MailItem(user, to, subject, message);
         server.post(email);
     }
-    
+
     /**
      * Mt para conocer el nº de correos que tenemos en el servidor.
      */
     public void mailsEnServidor(){
         int cantidad = server.howManyMailItems(user);
-       System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
+        System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
     }
+
+    /**
+     * Mt para responder automáticamente cuado recibimos un correo, y no estamos
+     *  con el ordenador en ese momento, para poder responder.
+     */
+    public void getNextMailItemAndSendAutomaticRespond(){
+        MailItem email = getNextMailItem();
+        if(email != null){
+           // sendMailItem(email.getFrom()," \n Estoy en Japón.\n " + email.getMessage(), " RE " +email.getSubject()) ;
+           sendMailItem(email.getFrom(), email.getSubject()," RE \n Estoy en Japón.\n " + email.getMessage() ) ;
+        }
+       
+    }
+
 }
-
-
-
-
-
-
-
 
 
 
