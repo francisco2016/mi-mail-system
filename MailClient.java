@@ -14,6 +14,16 @@ public class MailClient
     private MailItem lastMail;
     //At para ayudar a comprobar si el mensaje contiene spam.
     private boolean spam;
+    //At para guardar los mensajes enviados.
+    private int enviados;
+    //At para guardar los mensajes recibidos.
+    private int recibidos;
+    //At para guardar los mensajes con spam.
+    private int conSpam;
+    //At para guardar la dirección de correo del mensaje mas largo.
+    private String mensajeLargo;
+    //At para almacenar el nº de caracteres del mensaje.
+    private int numDeCaracteres;
 
     /**
      * Crea un objeto MailClient a partir de los valores dados
@@ -24,6 +34,11 @@ public class MailClient
         this.user = user;
         lastMail = null;
         spam = false;
+        enviados = 0;
+        recibidos = 0;
+        conSpam = 0;
+        mensajeLargo = "";
+        numDeCaracteres = 0;
     }
 
     /**
@@ -41,13 +56,20 @@ public class MailClient
                 spam = false;
                 lastMail = email;
             }
+            
             else if(email.getMessage().contains("regalo") || email.getMessage().contains("promocion") ){
                 spam = true;
                // email = null;
+               conSpam++;
+            }
+            //Condiciconal para controlar el mensaje más largo, y saber el nº de caracteres que tiene.
+            if(spam == false && email.getMessage().length() > numDeCaracteres){
+                numDeCaracteres = email.getMessage().length(); //cuenta el nº de caracteres.
+                mensajeLargo = email.getFrom(); //guarda la dirección del msj. más largo.
             }
              lastMail = email;
+             recibidos++;
         }
-
         return email;
     }
 
@@ -86,6 +108,7 @@ public class MailClient
     {
         MailItem email = new MailItem(user, to, subject, message);
         server.post(email);
+        enviados++;
     }
 
     /**
@@ -93,7 +116,9 @@ public class MailClient
      */
     public void mailsEnServidor(){
         int cantidad = server.howManyMailItems(user);
-        System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
+        
+            System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
+        
     }
 
     /**
@@ -102,7 +127,7 @@ public class MailClient
      */
     public void getNextMailItemAndSendAutomaticRespond(){
         MailItem email = getNextMailItem();
-        if(email != null){
+        if(email != null && spam == false){
             // sendMailItem(email.getFrom()," \n Estoy en Japón.\n " + email.getMessage(), " RE " +email.getSubject()) ;
             sendMailItem(email.getFrom(), email.getSubject()," RE \n Estoy en Japón.\n " + email.getMessage() ) ;
         }
@@ -118,7 +143,30 @@ public class MailClient
         }
         else{System.out.println("No tenemos mensajes nuevos.");}
     }
-
+    
+    /**
+     * Mt para mostrar las estadisticas relacionadas con los mensajes.
+     */
+     public void porcentajes(){
+         float a = recibidos;
+         float b = conSpam;
+         float porcentaje = (b / a) * 100;
+         System.out.println("Mensajes recibidos:           " +recibidos);
+         System.out.println("Mensajes enviados:            " +enviados);
+         System.out.println("Mensajes con spam:            " +conSpam);
+         System.out.println("Porcentaje de spam recibidos: " +porcentaje+ " %.");
+         System.out.println("El mensaje más largo \nlo ha escrito\n " +mensajeLargo+ " tiene " +numDeCaracteres+ " caracteres.");
+         
+    }
 }
+
+
+
+
+
+
+
+
+
 
 
