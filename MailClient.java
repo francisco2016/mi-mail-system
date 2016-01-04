@@ -59,20 +59,20 @@ public class MailClient
                 spam = false;
                 lastMail = email;
             }
-            
+
             else if(email.getMessage().contains("regalo") || email.getMessage().contains("promocion") ){
                 spam = true;
-               // email = null;
-               conSpam++; 
-               menConSpam = email;
+                // email = null;
+                conSpam++; 
+                menConSpam = email;
             }
             //Condiciconal para controlar el mensaje más largo, y saber el nº de caracteres que tiene.
             if(spam == false && email.getMessage().length() > numDeCaracteres){
                 numDeCaracteres = email.getMessage().length(); //cuenta el nº de caracteres.
                 mensajeLargo = email.getFrom(); //guarda la dirección del msj. más largo.
             }
-             lastMail = email;
-             recibidos++;
+            lastMail = email;
+            recibidos++;
         }
         return email;
     }
@@ -120,9 +120,9 @@ public class MailClient
      */
     public void mailsEnServidor(){
         int cantidad = server.howManyMailItems(user);
-        
-            System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
-        
+
+        System.out.println("tienes: " +cantidad+ " correos sin abrir. ");
+
     }
 
     /**
@@ -147,22 +147,22 @@ public class MailClient
         }
         else{System.out.println("No tenemos mensajes nuevos.");}
     }
-    
+
     /**
      * Mt para mostrar las estadisticas relacionadas con los mensajes.
      */
-     public void porcentajes(){
-         float a = recibidos;
-         float b = conSpam;
-         float porcentaje = (b / a) * 100;
-         System.out.println("Mensajes recibidos:           " +recibidos);
-         System.out.println("Mensajes enviados:            " +enviados);
-         System.out.println("Mensajes con spam:            " +conSpam);
-         System.out.println("Porcentaje de spam recibidos: " +porcentaje+ " %.");
-         System.out.println("El mensaje más largo \nlo ha escrito\n " +mensajeLargo+ " tiene " +numDeCaracteres+ " caracteres.");
-         
+    public void porcentajes(){
+        float a = recibidos;
+        float b = conSpam;
+        float porcentaje = (b / a) * 100;
+        System.out.println("Mensajes recibidos:           " +recibidos);
+        System.out.println("Mensajes enviados:            " +enviados);
+        System.out.println("Mensajes con spam:            " +conSpam);
+        System.out.println("Porcentaje de spam recibidos: " +porcentaje+ " %.");
+        System.out.println("El mensaje más largo \nlo ha escrito\n " +mensajeLargo+ " tiene " +numDeCaracteres+ " caracteres.");
+
     }
-    
+
     /**
      * Mt para mostrar por pantalla el último msj recibido com spam.
      */
@@ -174,12 +174,29 @@ public class MailClient
             System.out.println("No tiene mensajes con spam.");
         }
     }
+
+    /**
+     * Mt. para transmitir ms. con error.
+     */
+    public void sendMailItemWithTransmissionError(String to, String subject, String message){
+        
+        if(message.contains("o")){
+            message = message.replace("o", "#o");
+        }
+        if(message.contains("i")){
+            message = message.replace("i", "$i");
+        }
+        if(message.contains("O")){
+            message = message.replace("O", "#O");
+        }
+        if(message.contains("I")){
+            message = message.replace("I", "$I");
+        }
+        MailItem email = new MailItem(user, to, subject, message);
+        server.post(email);
+        
+    }  
 }
-
-
-
-
-
 
 
 
