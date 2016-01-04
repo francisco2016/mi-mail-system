@@ -10,6 +10,10 @@ public class MailClient
     private MailServer server;
     //La direccion del usuario que esta usando este cliente
     private String user;
+    //At para almacenar el último email recibido.
+    private MailItem lastMail;
+    //At para ayudar a comprobar si el mensaje contiene spam.
+    private boolean spam;
 
     /**
      * Crea un objeto MailClient a partir de los valores dados
@@ -18,6 +22,8 @@ public class MailClient
     {   
         this.server = server;
         this.user = user;
+        lastMail = null;
+        spam = false;
     }
 
     /**
@@ -28,7 +34,21 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        return server.getNextMailItem(user);
+        MailItem email = server.getNextMailItem(user);
+        if (email != null)
+        {
+            if(email.getMessage().contains("trabajo")){
+                spam = false;
+                lastMail = email;
+            }
+            else if(email.getMessage().contains("regalo") || email.getMessage().contains("promocion") ){
+                spam = true;
+               // email = null;
+            }
+             lastMail = email;
+        }
+
+        return email;
     }
 
     /**
@@ -42,8 +62,14 @@ public class MailClient
         MailItem email = getNextMailItem();
         if (email != null)
         {
-            //Imprimimos los detalles del email
-            email.print();
+            if(spam == false){
+                //Imprimimos los detalles del email
+                email.print();
+                lastMail = email;
+            }
+            else if(email.getMessage().contains("regalo") || email.getMessage().contains("promocion") ){
+                System.out.println("Ha recibido un spam en su servidor de correo.");
+            }
         }
         else 
         {
@@ -77,18 +103,22 @@ public class MailClient
     public void getNextMailItemAndSendAutomaticRespond(){
         MailItem email = getNextMailItem();
         if(email != null){
-           // sendMailItem(email.getFrom()," \n Estoy en Japón.\n " + email.getMessage(), " RE " +email.getSubject()) ;
-           sendMailItem(email.getFrom(), email.getSubject()," RE \n Estoy en Japón.\n " + email.getMessage() ) ;
+            // sendMailItem(email.getFrom()," \n Estoy en Japón.\n " + email.getMessage(), " RE " +email.getSubject()) ;
+            sendMailItem(email.getFrom(), email.getSubject()," RE \n Estoy en Japón.\n " + email.getMessage() ) ;
         }
-       
+
+    }
+
+    /**
+     * Mt para almacenar el último mensaje recibido.
+     */
+    public void ultimoMensaje(){
+        if(lastMail != null){
+            lastMail.print();
+        }
+        else{System.out.println("No tenemos mensajes nuevos.");}
     }
 
 }
-
-
-
-
-
-
 
 
