@@ -24,6 +24,8 @@ public class MailClient
     private String mensajeLargo;
     //At para almacenar el nº de caracteres del mensaje.
     private int numDeCaracteres;
+    //At para guardar el último mensaje con spam.
+    private MailItem menConSpam;
 
     /**
      * Crea un objeto MailClient a partir de los valores dados
@@ -39,6 +41,7 @@ public class MailClient
         conSpam = 0;
         mensajeLargo = "";
         numDeCaracteres = 0;
+        menConSpam = null;
     }
 
     /**
@@ -60,7 +63,8 @@ public class MailClient
             else if(email.getMessage().contains("regalo") || email.getMessage().contains("promocion") ){
                 spam = true;
                // email = null;
-               conSpam++;
+               conSpam++; 
+               menConSpam = email;
             }
             //Condiciconal para controlar el mensaje más largo, y saber el nº de caracteres que tiene.
             if(spam == false && email.getMessage().length() > numDeCaracteres){
@@ -157,6 +161,18 @@ public class MailClient
          System.out.println("Porcentaje de spam recibidos: " +porcentaje+ " %.");
          System.out.println("El mensaje más largo \nlo ha escrito\n " +mensajeLargo+ " tiene " +numDeCaracteres+ " caracteres.");
          
+    }
+    
+    /**
+     * Mt para mostrar por pantalla el último msj recibido com spam.
+     */
+    public void showSpam(){
+        if(spam == true){
+            menConSpam.print();
+        }
+        else{
+            System.out.println("No tiene mensajes con spam.");
+        }
     }
 }
 
